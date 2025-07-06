@@ -15,18 +15,23 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background: #0f0f0f;
       color: #f4f7fa;
+      background: #0f0f0f;
       opacity: 0;
       transition: opacity 0.6s ease;
     }
     body.loaded {
       opacity: 1;
     }
+    header, footer {
+      text-align: center;
+      padding: 1rem;
+      color: #fff;
+    }
     main {
       max-width: 900px;
       margin: 2rem auto;
-      background: rgba(0, 0, 0, 0.7);
+      background: var(--gradient, linear-gradient(135deg, #5865F2, #202225));
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -37,13 +42,20 @@
     h1, h2, h3 { color: #ffffff; }
     a { color: #8ab4f8; text-decoration: none; }
     section { margin-bottom: 2rem; }
-    header, footer {
-      text-align: center;
-      padding: 1rem;
-      color: #fff;
-    }
     footer p { margin: 0; font-size: 0.9rem; }
     .icon { width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; }
+    .color-picker {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .color-picker input[type=color] {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      margin: 0 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -56,6 +68,13 @@
   </header>
 
   <main>
+    <div class="color-picker">
+      <svg data-lucide="palette" class="icon"></svg>
+      <span>Customize Gradient:</span>
+      <input type="color" id="color1" value="#5865F2"/>
+      <input type="color" id="color2" value="#202225"/>
+    </div>
+
     <section>
       <h2><svg data-lucide="shield-check" class="icon"></svg> About JoinSpy</h2>
       <p>JoinSpy is the ultimate security bot for Discord, protecting your community with advanced invite tracking, suspicious join detection, and a powerful global reputation system. JoinSpy helps you stop alts, spammers, and malicious accounts before they cause chaos.</p>
@@ -63,7 +82,6 @@
 
     <section>
       <h2><svg data-lucide="terminal" class="icon"></svg> JoinSpy Commands</h2>
-      <p>Take full control of your server’s security with these intuitive, easy-to-use slash commands:</p>
       <ul>
         <li><strong>/lookup @user</strong> — Get detailed info on when and how a user joined your server, including inviter, reputation, and account age.</li>
         <li><strong>/globalrep @user</strong> — View a user’s global reputation history across all servers using JoinSpy, including suspicious join patterns and lowest reputation recorded.</li>
@@ -95,7 +113,7 @@
   </footer>
 
   <script>
-    // Fade in on page load
+    // Fade in + icons + particles
     window.addEventListener("load", () => {
       document.body.classList.add("loaded");
       lucide.createIcons();
@@ -111,6 +129,12 @@
         background: { color: "#0f0f0f" }
       });
     });
+
+    // Gradient color changer
+    const colorInputs = [document.getElementById("color1"), document.getElementById("color2")];
+    colorInputs.forEach(input => input.addEventListener("input", () => {
+      document.querySelector("main").style.setProperty("--gradient", `linear-gradient(135deg, ${colorInputs[0].value}, ${colorInputs[1].value})`);
+    }));
   </script>
 </body>
 </html>
