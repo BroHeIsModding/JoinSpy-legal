@@ -1,64 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>JoinSpy - Ultimate Discord Security Bot</title>
-
-  <!-- tsParticles background -->
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
-
-  <!-- Lucide icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Inter', sans-serif;
       margin: 0;
-      color: #f4f7fa;
-      background: #0f0f0f;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-    body.loaded {
-      opacity: 1;
+      background: linear-gradient(135deg, #5865F2, #4E5D94);
+      color: #fff;
+      transition: background 0.5s ease;
+      scroll-behavior: smooth;
     }
     header, footer {
       text-align: center;
-      padding: 1rem;
-      color: #fff;
+      padding: 2rem 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
     }
     main {
-      max-width: 900px;
+      max-width: 800px;
       margin: 2rem auto;
-      background: var(--gradient, linear-gradient(135deg, #5865F2, #202225));
+      background: rgba(0,0,0,0.6);
+      border-radius: 1rem;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      backdrop-filter: blur(6px);
-      position: relative;
-      z-index: 1;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-    h1, h2, h3 { color: #ffffff; }
-    a { color: #8ab4f8; text-decoration: none; }
-    section { margin-bottom: 2rem; }
-    footer p { margin: 0; font-size: 0.9rem; }
-    .icon { width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; }
-    .color-picker {
+    h1, h2 {
+      color: #fff;
       text-align: center;
-      margin-bottom: 1rem;
     }
-    .color-picker input[type=color] {
-      width: 40px;
-      height: 40px;
+    section {
+      margin-bottom: 2rem;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li::before {
+      content: "•";
+      color: #5865F2;
+      margin-right: 0.5rem;
+    }
+    button, a.button {
+      background: #5865F2;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 50%;
-      margin: 0 10px;
+      border-radius: 8px;
+      font-size: 1rem;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin: 1rem auto;
+      transition: background 0.3s;
+    }
+    button:hover, a.button:hover {
+      background: #4752C4;
+    }
+    footer p {
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    #gradientPicker {
+      text-align: center;
+      margin: 1rem 0;
     }
   </style>
 </head>
-
 <body>
   <div id="tsparticles"></div>
 
@@ -68,43 +87,41 @@
   </header>
 
   <main>
-    <div class="color-picker">
-      <svg data-lucide="palette" class="icon"></svg>
-      <span>Customize Gradient:</span>
-      <input type="color" id="color1" value="#5865F2"/>
-      <input type="color" id="color2" value="#202225"/>
+    <div id="gradientPicker">
+      <label>🎨 Customize Gradient:</label>
+      <input type="color" id="color1" value="#5865F2">
+      <input type="color" id="color2" value="#4E5D94">
     </div>
 
     <section>
-      <h2><svg data-lucide="shield-check" class="icon"></svg> About JoinSpy</h2>
+      <h2>🚀 About JoinSpy</h2>
       <p>JoinSpy is the ultimate security bot for Discord, protecting your community with advanced invite tracking, suspicious join detection, and a powerful global reputation system. JoinSpy helps you stop alts, spammers, and malicious accounts before they cause chaos.</p>
     </section>
 
     <section>
-      <h2><svg data-lucide="terminal" class="icon"></svg> JoinSpy Commands</h2>
+      <h2>🛠️ JoinSpy Commands</h2>
       <ul>
-        <li><strong>/lookup @user</strong> — Get detailed info on when and how a user joined your server, including inviter, reputation, and account age.</li>
-        <li><strong>/globalrep @user</strong> — View a user’s global reputation history across all servers using JoinSpy, including suspicious join patterns and lowest reputation recorded.</li>
-        <li><strong>/setlogs #channel</strong> — Define where JoinSpy should send logs for member joins, leaves, suspicious activity, and watchlist alerts.</li>
-        <li><strong>/stats</strong> — Access server-specific statistics, including join counts, suspicious joins, and average account age of members.</li>
-        <li><strong>/help</strong> — Launch an interactive help menu that guides staff through all available features and commands.</li>
+        <li><strong>/lookup @user</strong> — Detailed info on when/how a user joined, inviter, reputation, account age.</li>
+        <li><strong>/globalrep @user</strong> — View a user’s global reputation across all servers.</li>
+        <li><strong>/setlogs #channel</strong> — Set your server’s log channel for join/leave/suspicious alerts.</li>
+        <li><strong>/stats</strong> — See detailed server join stats.</li>
+        <li><strong>/help</strong> — Interactive help menu for features & commands.</li>
       </ul>
-      <p>Commands are designed with moderators in mind — providing instant insights to take action quickly and efficiently.</p>
+    </section>
+
+    <section style="text-align:center;">
+      <h2>🤖 Add JoinSpy to Your Server</h2>
+      <a class="button" href="https://discord.com/oauth2/authorize?client_id=1390784943486931154&scope=bot%20applications.commands&permissions=8" target="_blank">Invite JoinSpy Now</a>
     </section>
 
     <section>
-      <h2><svg data-lucide="user-plus" class="icon"></svg> Add JoinSpy to Your Server</h2>
-      <p><a href="https://discord.com/oauth2/authorize?client_id=1390784943486931154&scope=bot%20applications.commands&permissions=8" target="_blank" style="display:inline-block; padding:10px 20px; background:#5865F2; color:#fff; border-radius:8px; text-decoration:none;">Invite JoinSpy Now</a></p>
+      <h2>💬 Support & Community</h2>
+      <p>Need help? Join our <a href="https://discord.gg/nhUqHngmBX" target="_blank" style="color:#86A8FF;">Support Server</a> to get assistance, share feedback, or stay updated on JoinSpy.</p>
     </section>
 
     <section>
-      <h2><svg data-lucide="life-buoy" class="icon"></svg> Support & Community</h2>
-      <p>Need help? Join our <a href="https://discord.gg/nhUqHngmBX" target="_blank">Support Server</a> to get assistance, share feedback, or get the latest updates about JoinSpy.</p>
-    </section>
-
-    <section>
-      <h2><svg data-lucide="file-text" class="icon"></svg> Policies</h2>
-      <p>Review our <a href="tos.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a> for information on how we protect your data and your rights as a user.</p>
+      <h2>📜 Policies</h2>
+      <p>Review our <a href="tos.html" style="color:#86A8FF;">Terms of Service</a> and <a href="privacy.html" style="color:#86A8FF;">Privacy Policy</a> for information on how we protect your data and your rights as a user.</p>
     </section>
   </main>
 
@@ -112,29 +129,31 @@
     <p>&copy; 2025 JoinSpy. Keeping your Discord server secure.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
   <script>
-    // Fade in + icons + particles
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded");
-      lucide.createIcons();
-      tsParticles.load("tsparticles", {
-        fullScreen: { enable: true, zIndex: -1 },
-        particles: {
-          number: { value: 40 },
-          size: { value: 2 },
-          move: { speed: 0.5 },
-          color: { value: "#5865F2" },
-          links: { enable: true, distance: 120, color: "#5865F2", opacity: 0.3 }
-        },
-        background: { color: "#0f0f0f" }
-      });
+    // Initialize particles background
+    tsParticles.load("tsparticles", {
+      fullScreen: { enable: false },
+      particles: {
+        number: { value: 50 },
+        size: { value: 2 },
+        move: { speed: 0.6 },
+        color: { value: "#ffffff" },
+        links: { enable: true, distance: 120, color: "#ffffff", opacity: 0.2 }
+      },
+      background: { color: "#0f0f0f" }
     });
 
     // Gradient color changer
-    const colorInputs = [document.getElementById("color1"), document.getElementById("color2")];
-    colorInputs.forEach(input => input.addEventListener("input", () => {
-      document.querySelector("main").style.setProperty("--gradient", `linear-gradient(135deg, ${colorInputs[0].value}, ${colorInputs[1].value})`);
-    }));
+    const color1 = document.getElementById("color1");
+    const color2 = document.getElementById("color2");
+
+    function updateGradient() {
+      document.body.style.background = `linear-gradient(135deg, ${color1.value}, ${color2.value})`;
+    }
+
+    color1.addEventListener("input", updateGradient);
+    color2.addEventListener("input", updateGradient);
   </script>
 </body>
 </html>
