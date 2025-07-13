@@ -1,140 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JoinSpy — Discord Security Bot</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      transition: background 0.8s ease;
-    }
-    header, footer {
-      text-align: center;
-      padding: 1.5rem;
-      background: rgba(0,0,0,0.5);
-    }
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: rgba(0,0,0,0.6);
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-    h1, h2, h3 { margin-top: 0; }
-    section { margin-bottom: 2rem; }
-    a, button {
-      color: #fff; text-decoration: none;
-      background: #5865F2;
-      border: none;
-      padding: 0.8rem 1.2rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-      display: inline-block;
-      margin-top: 0.5rem;
-    }
-    a:hover, button:hover { background: #4752c4; }
-    .color-inputs {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .color-inputs input[type="color"] {
-      border: none; width: 40px; height: 40px; cursor: pointer;
-    }
-    ul { padding-left: 1.2rem; }
-    footer p { margin: 0; font-size: 0.9rem; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoinSpy - Building Better Discord Servers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="particles" id="particles"></div>
 
-  <header>
-    <h1>JoinSpy</h1>
-    <p>Your trusted Discord invite & reputation tracker</p>
-  </header>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fab fa-discord"></i> JoinSpy
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#commands">Commands</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        <a href="#" class="cta-button glow-on-hover" onclick="inviteBot()">Invite Bot</a>
+        </div>
+    </nav>
 
-  <main>
-    <div class="color-inputs">
-      <label>Customize Gradient: </label>
-      <input type="color" id="color1" value="#6a11cb">
-      <input type="color" id="color2" value="#2575fc">
-    </div>
-
-    <section>
-      <h2>🚀 About JoinSpy</h2>
-      <p>JoinSpy is the ultimate security bot for Discord, protecting your community with advanced invite tracking, suspicious join detection, and a powerful global reputation system. JoinSpy helps you stop alts, spammers, and malicious accounts before they cause chaos.</p>
+    <section id="home" class="hero">
+        <div class="hero-content fade-in-up">
+            <h1>Building Better Discord Servers</h1>
+            <p>Enhance your Discord server with powerful moderation tools, fun games, music, and more. Let the bot help you improve your server.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary glow-on-hover" onclick="inviteBot()">
+                    <i class="fas fa-plus"></i> Add to Discord
+                </a>
+                <a href="#features" class="btn-secondary glow-on-hover">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+            </div>
+        </div>
     </section>
 
-    <section>
-      <h2>🛠️ JoinSpy Commands</h2>
-      <ul>
-        <li><strong>/lookup @user</strong> — Detailed info on how & when a user joined, inviter, reputation, account age.</li>
-        <li><strong>/globalrep @user</strong> — View a user’s global reputation history across all servers.</li>
-        <li><strong>/setlogs #channel</strong> — Define where JoinSpy sends join/leave/suspicious alerts.</li>
-        <li><strong>/stats</strong> — See server join statistics.</li>
-        <li><strong>/help</strong> — Open the interactive help menu.</li>
-      </ul>
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Advanced Moderation (SOON)</h3>
+                    <p>Keep your server safe with powerful moderation tools including auto-moderation, warning systems, and role management.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Music Player (SOON)</h3>
+                    <p>High-quality music streaming from YouTube, Spotify, and more. Create playlists and enjoy music with your friends.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Fun Games (SOON)</h3>
+                    <p>Engage your community with interactive games like trivia, word games, and mini-games to keep everyone entertained.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics (SOON)</h3>
+                    <p>Track your server's growth with detailed analytics, member statistics, and activity reports.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Easy Setup</h3>
+                    <p>Simple and intuitive setup process. Get your bot running in minutes with our step-by-step guide.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Get help whenever you need it with our dedicated support team and comprehensive documentation.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section>
-      <h2>🤖 Add JoinSpy to Your Server</h2>
-      <button id="invite-btn">Invite JoinSpy Now</button>
+    <section id="commands" class="commands">
+        <div class="container">
+            <h2 class="section-title">Commands</h2>
+            <div class="commands-grid">
+                <div class="command-card">
+                    <div class="command-name">/moderate (SOON)</div>
+                    <div class="command-description">Access moderation tools and manage your server</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/play (SOON)</div>
+                    <div class="command-description">Play music from YouTube, Spotify, and more</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/trivia (SOON)</div>
+                    <div class="command-description">Start a fun trivia game with your members</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/setuplogs</div>
+                    <div class="command-description">Configure bot logs channel</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/help</div>
+                    <div class="command-description">Get help with bot commands and features</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/ping (SOON)</div>
+                    <div class="command-description">Check bot latency and status</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/stats</div>
+                    <div class="command-description">Check your servers join statistics</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/globalrep</div>
+                    <div class="command-description">Look up a users global rep across all servers</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/lookup</div>
+                    <div class="command-description">Look up detailed info about a user</div>
+                </div>
+                <div class="command-card">
+                    <div class="command-name">/watchlist add/remove</div>
+                    <div class="command-description">Global watchlist add/remove, must conact @.netd to use</div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section>
-      <h2>💬 Support & Community</h2>
-      <p>Need help? <a href="https://discord.gg/nhUqHngmBX" target="_blank">Join our Support Server</a> for assistance and updates.</p>
+    <section id="stats" class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3 id="server-count">0</h3> 
+                    <p>Active Servers</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="user-count">0</h3>
+                    <p>Users Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="uptime-count">99.9%</h3> <p>Uptime</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="commands-count">50+</h3> <p>Commands</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section>
-      <h2>📜 Policies</h2>
-      <p>Review our <a href="tos.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a> to learn how we protect your data and your rights as a user.</p>
+    <section id="invite" class="cta-section">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Add some cool features to your server with this bot, including moderation tools, games, music, and more.</p>
+            <a href="#" class="btn-primary glow-on-hover" onclick="inviteBot()">
+                <i class="fas fa-plus"></i> Add to Discord
+            </a>
+        </div>
     </section>
-  </main>
 
-<section>
-  <h2>📊 Transparency Report</h2>
-  <p>See how JoinSpy operates, what data it collects, and how we protect your privacy.</p>
-  <a href="transparency.html" target="_blank" style="
-  display: inline-block;
-  background: #5865F2;
-  color: #fff;
-  padding: 0.8rem 1.2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.3s;
-">
-  View Transparency Report
-</a>
-</section>
+    <footer id="support">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>JoinSpy</h3>
+                <p>Building Better Discord Servers with powerful features and easy-to-use commands.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <p><a href="#">Help Center</a></p>
+                <p><a href="#">Contact Us</a></p>
+                <p><a href="#">Bug Report</a></p>
+                <p><a href="#">Feature Request</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <p><a href="#">Privacy Policy</a></p>
+                <p><a href="#">Terms of Service</a></p>
+                <p><a href="#">Cookie Policy</a></p>
+                <p><a href="#">GDPR</a></p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #2f3136;">
+            <p>&copy; 2025 JoinSpy. All rights reserved.</p>
+                
+        </div>
+    </footer>
 
-
-  <footer>
-    <p>&copy; 2025 JoinSpy. Keeping your Discord server secure.</p>
-  </footer>
-
-  <script>
-    // Gradient changer
-    const color1 = document.getElementById("color1");
-    const color2 = document.getElementById("color2");
-    function updateGradient() {
-      document.body.style.background = `linear-gradient(135deg, ${color1.value}, ${color2.value})`;
-    }
-    color1.addEventListener("input", updateGradient);
-    color2.addEventListener("input", updateGradient);
-
-    // Invite button
-    document.getElementById("invite-btn").addEventListener("click", () => {
-      window.open("https://discord.com/oauth2/authorize?client_id=1390784943486931154&scope=bot%20applications.commands&permissions=8", "_blank");
-    });
-  </script>
-
+    <script src="main.js"></script>
 </body>
 </html>
