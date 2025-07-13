@@ -168,7 +168,7 @@ function initializeWidgetBot() {
         console.log("WidgetBot Crate loaded, initializing...");
         new Crate({
             server: '1313733494559739986', // Your Discord Server ID
-            channel: '1313733495931277337' // Your Discord Channel ID
+            channel: '1335483010396455034' // Your Discord Channel ID
         });
     };
     
