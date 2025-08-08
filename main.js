@@ -154,7 +154,7 @@ window.addEventListener('load', () => {
 
 // -------- ONLY KEEP THESE TWO ADD-ONS BELOW --------
 
-// (SOON) badge
+/ (SOON) badge
 (function () {
   document.querySelectorAll('.feature-card h3, .command-card .command-name').forEach(n => {
     const t = (n.textContent || '');
@@ -168,26 +168,26 @@ window.addEventListener('load', () => {
   });
 })();
 
-// Simple, reliable playlist switcher (no YT API)
+// Simple playlist switcher
 (function simplePlaylistSwitcher(){
   const LS_PL = 'joinspy_playlist';
   const sel = document.getElementById('playlist-select');
-  const frame = document.getElementById('yt-frame'); // <-- iframe in index.html
+  const frame = document.getElementById('yt-frame');
   if (!sel || !frame) return;
-
   const BASE = 'https://www.youtube.com/embed/videoseries?list=';
   const OPTS = '&controls=1&rel=0&modestbranding=1';
 
-  // Restore last choice, else use current <select> value
   const saved = localStorage.getItem(LS_PL);
   if (saved) {
     sel.value = saved;
     frame.src = BASE + encodeURIComponent(saved) + OPTS;
+  } else {
+    frame.src = BASE + encodeURIComponent(sel.value) + OPTS;
   }
 
   sel.addEventListener('change', () => {
-    const id = sel.value;                 // exact ID from the option
-    localStorage.setItem(LS_PL, id);      // remember
-    frame.src = BASE + encodeURIComponent(id) + OPTS; // swap immediately
+    const id = sel.value;
+    localStorage.setItem(LS_PL, id);
+    frame.src = BASE + encodeURIComponent(id) + OPTS;
   });
 })();
