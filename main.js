@@ -183,14 +183,15 @@ window.addEventListener('load', () => {
 
 
 // === (SOON) badge injection ===
+})
+
+// === (SOON) badge injection (single copy) ===
 (function tagSoonBadges(){
   const nodes = document.querySelectorAll('.feature-card h3, .command-card .command-name');
   nodes.forEach(n => {
     const txt = n.textContent;
-    const idx = txt.indexOf('(SOON)');
-    if (idx !== -1) {
-      const base = txt.replace('(SOON)', '').trim();
-      n.textContent = base + ' ';
+    if (txt && txt.includes('(SOON)')) {
+      n.textContent = txt.replace('(SOON)', '').trim() + ' ';
       const badge = document.createElement('span');
       badge.className = 'soon-badge';
       badge.textContent = 'SOON';
@@ -200,15 +201,12 @@ window.addEventListener('load', () => {
 })();
 
 
-
-
-
-// === YouTube Playlist Player (robust) ===
+// === YouTube Playlist Player (single source of truth) ===
 (() => {
-  if (window.__JoinSpyYTInit) return; // prevent double init if main.js is included twice
+  if (window.__JoinSpyYTInit) { console.debug('[JoinSpy] YT init already done'); return; }
   window.__JoinSpyYTInit = true;
 
-  const JS_PLAYLISTS = [
+  const PLAYLISTS = [
     { name: 'Shoegaze', id: 'PLsEc7Aw3YxEpeL9WwsjTqzgzmtW5-p9ZK' },
     { name: 'Hardcore', id: 'PLCaMf5YpijPKhGrogj6lxio1_U_NM1NCw' },
     { name: 'Lofi', id: 'PLN25DgFjBkBGA6V0gGRAbLqYJr2QzY4mv' },
@@ -217,16 +215,17 @@ window.addEventListener('load', () => {
     { name: 'Doomer', id: 'PLTj8zGbtGsjHQWtKYupS1CdZzrbbYKkoz' },
   ];
 
-  const LS_KEY_PL = 'joinspy_playlist';
-  const LS_KEY_VOL = 'joinspy_volume';
+  const LS_PL = 'joinspy_playlist';
+  const LS_VOL = 'joinspy_volume';
 
   let ytPlayer = null;
-  let currentPlaylistId = null;
-  let pendingPlaylistId = null; // if user switches before player is ready
+  let currentId = null;
+  let pendingId = null;
+  let apiLoaded = false;
 
-  function extractPlaylistId(input) {
+  function extractId(input) {
     if (!input) return null;
-    if (/^PL[A-Za-z0-9_\-]+$/.test(input)) return input;
+    if (/^PL[\w-]+$/.test(input)) return input;
     try {
       const u = new URL(input);
       const list = u.searchParams.get('list');
@@ -235,137 +234,132 @@ window.addEventListener('load', () => {
     return input;
   }
 
-  function populatePlaylistSelect(){
+  function populateSelect() {
     const sel = document.getElementById('playlist-select');
     if (!sel) return;
     sel.innerHTML = '';
-    JS_PLAYLISTS.forEach((p) => {
+    PLAYLISTS.forEach(p => {
       const opt = document.createElement('option');
       opt.value = p.id;
       opt.textContent = p.name;
       sel.appendChild(opt);
     });
-    const saved = extractPlaylistId(localStorage.getItem(LS_KEY_PL));
-    const defaultId = saved || JS_PLAYLISTS.find(p => p.name.toLowerCase() === 'lofi')?.id || JS_PLAYLISTS[0].id;
-    sel.value = defaultId;
-    currentPlaylistId = defaultId;
+    const saved = extractId(localStorage.getItem(LS_PL));
+    const def = saved || PLAYLISTS.find(p => p.name.toLowerCase() === 'lofi')?.id || PLAYLISTS[0].id;
+    sel.value = def;
+    currentId = def;
     sel.addEventListener('change', () => {
-      const id = extractPlaylistId(sel.value);
-      // Do NOT autoplay; just switch/cue
-      changePlaylist(id, /*userInitiated*/ true);
+      const id = extractId(sel.value);
+      console.debug('[JoinSpy] Select changed to', id);
+      changePlaylist(id);
     });
   }
 
-  function loadYouTubeAPI(){
-    if (window.YT && window.YT.Player) { createYTPlayer(); return; }
+  function loadAPI() {
+    if (apiLoaded || (window.YT && window.YT.Player)) { apiLoaded = true; createPlayer(); return; }
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
-    window.onYouTubeIframeAPIReady = createYTPlayer;
+    window.onYouTubeIframeAPIReady = function() { apiLoaded = true; createPlayer(); };
   }
 
-  function createYTPlayer(){
-    const wrap = document.getElementById('youtube-player');
-    if (!wrap) return;
+  function createPlayer() {
+    const el = document.getElementById('youtube-player');
+    if (!el) return;
+    if (ytPlayer && ytPlayer.destroy) { try { ytPlayer.destroy(); } catch(e){} }
     ytPlayer = new YT.Player('youtube-player', {
       height: '390',
       width: '640',
       playerVars: {
-        listType: 'playlist',
-        list: currentPlaylistId,
-        autoplay: 0,
+        autoplay: 0, // never autoplay until user clicks play
         controls: 1,
         modestbranding: 1,
         rel: 0,
         iv_load_policy: 3
       },
-      events: { 'onReady': onYTReady, 'onStateChange': onYTStateChange }
+      events: { onReady, onStateChange }
     });
   }
 
-  function onYTReady(){
-    // Initial volume
-    const vol = parseFloat(localStorage.getItem(LS_KEY_VOL) || '1.0');
-    setYTVolume(vol);
-    const volSlider = document.getElementById('yt-volume');
-    if (volSlider) volSlider.value = vol;
+  function onReady() {
+    console.debug('[JoinSpy] YT ready. Cueing initial playlist:', currentId);
+    const volEl = document.getElementById('yt-volume');
+    const v = parseFloat(localStorage.getItem(LS_VOL) || '1.0');
+    setVolume(v);
+    if (volEl) volEl.value = v;
 
-    // Controls
+    bindControls();
+
+    // If user already chose another playlist before ready, honor it
+    const idToCue = pendingId || currentId;
+    pendingId = null;
+    cueNoAutoplay(idToCue);
+  }
+
+  function onStateChange(e) {
+    const playBtn = document.getElementById('yt-playpause');
+    if (!playBtn) return;
+    if (e.data === 1) playBtn.innerHTML = '&#10074;&#10074;'; // playing
+    else playBtn.innerHTML = '&#9654;'; // paused, ended, cued, unstarted
+  }
+
+  function bindControls() {
     const playBtn = document.getElementById('yt-playpause');
     const prevBtn = document.getElementById('yt-prev');
     const nextBtn = document.getElementById('yt-next');
-    playBtn?.addEventListener('click', toggleYTPlayPause);
+    const volEl  = document.getElementById('yt-volume');
+
+    playBtn?.addEventListener('click', () => {
+      const s = ytPlayer.getPlayerState();
+      if (s === 1 || s === 3) ytPlayer.pauseVideo();
+      else ytPlayer.playVideo();
+    });
     prevBtn?.addEventListener('click', () => ytPlayer.previousVideo());
     nextBtn?.addEventListener('click', () => ytPlayer.nextVideo());
-
-    const volS = document.getElementById('yt-volume');
-    volS?.addEventListener('input', () => {
-      const v = parseFloat(volS.value);
-      setYTVolume(v);
-      localStorage.setItem(LS_KEY_VOL, String(v));
+    volEl?.addEventListener('input', () => {
+      const v = parseFloat(volEl.value);
+      setVolume(v);
+      localStorage.setItem(LS_VOL, String(v));
     });
-
-    // If user picked a playlist before player was ready, cue it now without autoplay
-    if (pendingPlaylistId && pendingPlaylistId !== currentPlaylistId) {
-      cuePlaylistNoAutoplay(pendingPlaylistId);
-      currentPlaylistId = pendingPlaylistId;
-      pendingPlaylistId = null;
-    } else {
-      // Ensure the initial playlist is cued (not autoplayed)
-      cuePlaylistNoAutoplay(currentPlaylistId);
-    }
   }
 
-  function onYTStateChange(e){
-    const playBtn = document.getElementById('yt-playpause');
-    if (!playBtn) return;
-    // -1 unstarted, 0 ended, 1 playing, 2 paused, 3 buffering, 5 cued
-    if (e.data === 1) playBtn.innerHTML = '&#10074;&#10074;';
-    else if (e.data === 2 || e.data === 0 || e.data === -1 || e.data === 5) playBtn.innerHTML = '&#9654;';
-  }
-
-  function toggleYTPlayPause(){
-    if (!ytPlayer) return;
-    const state = ytPlayer.getPlayerState();
-    if (state === 1 || state === 3) ytPlayer.pauseVideo();
-    else ytPlayer.playVideo();
-  }
-
-  function setYTVolume(v){
+  function setVolume(v) {
     if (!ytPlayer) return;
     ytPlayer.setVolume(Math.floor((v || 0) * 100));
   }
 
-  function cuePlaylistNoAutoplay(id){
+  function cueNoAutoplay(id) {
     if (!ytPlayer) return;
+    currentId = id;
+    localStorage.setItem(LS_PL, id);
     try { ytPlayer.pauseVideo(); } catch {}
     try { ytPlayer.setShuffle(false); } catch {}
     try { ytPlayer.setLoop(false); } catch {}
-    ytPlayer.cuePlaylist({ listType: 'playlist', list: id, index: 0 });
+    console.debug('[JoinSpy] Cue playlist (no autoplay):', id);
+    ytPlayer.cuePlaylist({ listType: 'playlist', list: id, index: 0, startSeconds: 0, suggestedQuality: 'default' });
     const playBtn = document.getElementById('yt-playpause');
     if (playBtn) playBtn.innerHTML = '&#9654;';
   }
 
-  function changePlaylist(id, userInitiated=false){
-    const newId = extractPlaylistId(id);
+  function changePlaylist(id) {
+    const newId = extractId(id);
     if (!newId) return;
-    localStorage.setItem(LS_KEY_PL, newId);
-
     if (!ytPlayer || typeof ytPlayer.cuePlaylist !== 'function') {
-      // Player not ready yet — remember selection and handle in onReady
-      pendingPlaylistId = newId;
-      currentPlaylistId = newId;
+      // Not ready yet; remember selection
+      pendingId = newId;
+      currentId = newId;
+      localStorage.setItem(LS_PL, newId);
+      console.debug('[JoinSpy] Player not ready: pending', newId);
       return;
     }
-    // Pause current, disable shuffle/loop, cue new playlist without autoplay
-    cuePlaylistNoAutoplay(newId);
-    currentPlaylistId = newId;
+    cueNoAutoplay(newId);
   }
 
-  function initYTPlayer(){
-    populatePlaylistSelect();
-    loadYouTubeAPI();
+  function init() {
+    populateSelect();
+    loadAPI();
   }
 
-  window.addEventListener('load', initYTPlayer);
+  window.addEventListener('load', init);
 })();
+
