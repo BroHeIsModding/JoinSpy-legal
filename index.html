@@ -161,42 +161,18 @@
 
     
     
-<section id="music" class="music">
-  <div class="container">
-    <h2 class="section-title">Music Player</h2>
-    <p style="text-align:center;opacity:.9;margin-bottom:1rem">Pick a vibe and press play.</p>
-
-    <div class="music-ui">
-      <div class="music-top">
-        <label for="playlist-select">Playlist:</label>
-        <select id="playlist-select" class="music-select">
-          <option value="PLsEc7Aw3YxEpeL9WwsjTqzgzmtW5-p9ZK">Shoegaze</option>
-          <option value="PLCaMf5YpijPKhGrogj6lxio1_U_NM1NCw">Hardcore</option>
-          <option value="PLN25DgFjBkBGA6V0gGRAbLqYJr2QzY4mv" selected>Lofi</option>
-          <option value="PLqBqVfu0VWK8dhaofz4JQ6hUUYpEvJcx6">Jazz</option>
-          <option value="PL3kXme0WFC_5vMIPd6Dp8lUpNQVvYGE25">EDM</option>
-          <option value="PLTj8zGbtGsjHQWtKYupS1CdZzrbbYKkoz">Doomer</option>
-        </select>
-      </div>
-
-      <div class="youtube-wrapper">
-  <iframe id="yt-frame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media"
-    src="https://www.youtube.com/embed/videoseries?list=PLN25DgFjBkBGA6V0gGRAbLqYJr2QzY4mv&controls=1&rel=0&modestbranding=1">
-  </iframe>
-</div>
-
-
-      <div class="controls">
-        <button id="yt-prev" title="Previous" aria-label="Previous track">&#9664;&#9664;</button>
-        <button id="yt-playpause" title="Play/Pause" aria-label="Play or pause">&#9654;</button>
-        <button id="yt-next" title="Next" aria-label="Next track">&#9654;&#9654;</button>
-        <div class="volume-wrap">
-          <span class="vol-label">Vol</span>
-          <input id="yt-volume" type="range" min="0" max="1" step="0.01" value="1.0" title="Volume" aria-label="Volume">
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Music Player Section -->
+<section id="music">
+    <h2>Music Player</h2>
+    <select id="playlist-select">
+        <option value="PLsEc7Aw3YxEpeL9WwsjTqzgzmtW5-p9ZK">Shoegaze</option>
+        <option value="PLCaMf5YpijPKhGrogj6lxio1_U_NM1NCw">Hardcore</option>
+        <option value="PLN25DgFjBkBGA6V0gGRAbLqYJr2QzY4mv">Lofi</option>
+        <option value="PLqBqVfu0VWK8dhaofz4JQ6hUUYpEvJcx6">Jazz</option>
+        <option value="PL3kXme0WFC_5vMIPd6Dp8lUpNQVvYGE25">EDM</option>
+        <option value="PLTj8zGbtGsjHQWtKYupS1CdZzrbbYKkoz">Doomer</option>
+    </select>
+    <iframe id="yt-frame" width="640" height="390" frameborder="0" allowfullscreen></iframe>
 </section>
 
 
