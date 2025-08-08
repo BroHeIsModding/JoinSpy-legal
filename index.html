@@ -249,5 +249,106 @@
     </footer>
 
     <script src="main.js?v=4"></script>
+
+<script>
+  // Simple (SOON) tagger, safe to run even if others fail
+  (function () {
+    document.querySelectorAll('.feature-card h3, .command-card .command-name').forEach(n => {
+      const t = (n.textContent || '');
+      if (t.includes('(SOON)')) {
+        n.textContent = t.replace('(SOON)', '').trim() + ' ';
+        const b = document.createElement('span');
+        b.className = 'soon-badge'; b.textContent = 'SOON';
+        n.appendChild(b);
+      }
+    });
+  })();
+
+  // YouTube Iframe API loader
+  (function loadYT(){ 
+    var s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api';
+    s.onerror = () => console.warn('[JoinSpy] Failed to load YT API. Using fallback iframe only.');
+    document.body.appendChild(s);
+    window.onYouTubeIframeAPIReady = initYT;
+  })();
+
+  const LS_PL = 'joinspy_playlist';
+  const LS_VOL = 'joinspy_volume';
+  let player = null;
+
+  function initYT(){
+    const sel = document.getElementById('playlist-select');
+    const fallback = document.getElementById('yt-fallback');
+    const target = document.getElementById('youtube-player');
+    if (!sel || !fallback || !target) { console.warn('[JoinSpy] Music DOM missing'); return; }
+
+    // show the API player, hide fallback
+    target.style.display = '';
+    fallback.style.display = 'none';
+
+    const savedId = localStorage.getItem(LS_PL);
+    const startId = savedId || sel.value;
+    const savedVol = parseFloat(localStorage.getItem(LS_VOL) || '1.0');
+
+    player = new YT.Player('youtube-player', {
+      height: '390', width: '640',
+      playerVars: { listType:'playlist', list:startId, autoplay:0, controls:1, modestbranding:1, rel:0, iv_load_policy:3 },
+      events: {
+        onReady: () => {
+          setVolume(savedVol);
+          const vol = document.getElementById('yt-volume');
+          if (vol) vol.value = savedVol;
+          bindControls();
+          // ensure we cue the exact selected one (no autoplay)
+          cueNoAutoplay(sel.value);
+        },
+        onStateChange: (e) => {
+          const btn = document.getElementById('yt-playpause');
+          if (!btn) return;
+          btn.innerHTML = (e.data === 1) ? '&#10074;&#10074;' : '&#9654;';
+        }
+      }
+    });
+
+    sel.addEventListener('change', () => {
+      localStorage.setItem(LS_PL, sel.value);
+      cueNoAutoplay(sel.value); // no autoplay on change
+    });
+  }
+
+  function cueNoAutoplay(listId){
+    if (!player || !player.cuePlaylist) return;
+    try { player.pauseVideo(); } catch {}
+    try { player.setShuffle(false); } catch {}
+    try { player.setLoop(false); } catch {}
+    player.cuePlaylist({ listType:'playlist', list:listId, index:0, startSeconds:0 });
+    const btn = document.getElementById('yt-playpause');
+    if (btn) btn.innerHTML = '&#9654;';
+  }
+
+  function setVolume(v){
+    if (!player) return;
+    player.setVolume(Math.floor((v||0)*100));
+  }
+
+  function bindControls(){
+    const play = document.getElementById('yt-playpause');
+    const prev = document.getElementById('yt-prev');
+    const next = document.getElementById('yt-next');
+    const vol = document.getElementById('yt-volume');
+    play && play.addEventListener('click', () => {
+      const s = player.getPlayerState();
+      if (s === 1 || s === 3) player.pauseVideo(); else player.playVideo();
+    });
+    prev && prev.addEventListener('click', () => player.previousVideo());
+    next && next.addEventListener('click', () => player.nextVideo());
+    vol && vol.addEventListener('input', () => { 
+      setVolume(parseFloat(vol.value)); 
+      localStorage.setItem(LS_VOL, String(vol.value));
+    });
+  }
+</script>
+
+    
 </body>
 </html>
