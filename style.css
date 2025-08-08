@@ -688,3 +688,57 @@ footer {
 .footer-credit a:hover {
     text-decoration: underline; /*  */
 }
+
+
+/* ========= Music Section (YouTube) ========= */
+.youtube-wrapper {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #303238;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    margin-bottom: .75rem;
+}
+#youtube-player { width:100%; height:100%; }
+
+.music { padding: 5rem 2rem; background: #2b2d31; color: #dcddde; }
+.music-ui {
+    max-width: 900px; margin: 0 auto; background: #232428;
+    border: 1px solid #202225; border-radius: 16px; padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+.music-top { display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+.music-select {
+    background:#2f3136; color:#dcddde; border:1px solid #3a3d42;
+    border-radius:10px; padding:.6rem .9rem;
+}
+.controls { display:flex; gap:.75rem; align-items:center; margin: .5rem 0 0; flex-wrap: wrap; }
+.controls button {
+    background:#dd4545; color:#fff; border:none; border-radius:10px;
+    padding:.5rem .8rem; cursor:pointer;
+    transition:transform .1s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.controls button:hover { transform: translateY(-1px); box-shadow:0 6px 12px rgba(221,69,69,.25); }
+.controls button:disabled { opacity:.5; cursor:not-allowed; }
+.volume-wrap { display:flex; align-items:center; gap:.5rem; margin-left:auto; }
+.vol-label { font-size:.85rem; opacity:.85; }
+#yt-volume { max-width:200px; }
+
+
+/* "SOON" Badge */
+.soon-badge {
+    display:inline-block;
+    margin-left:.5rem;
+    padding:.15rem .45rem;
+    font-size:.7rem;
+    font-weight:700;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:8px;
+    color:#fff;
+    background: linear-gradient(135deg, rgba(221,69,69,.95), rgba(247,112,112,.9));
+    box-shadow:0 0 12px rgba(221,69,69,.4);
+    vertical-align:middle;
+    letter-spacing:.02em;
+}
