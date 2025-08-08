@@ -201,7 +201,8 @@ window.addEventListener('load', () => {
 
 
 
-// === YouTube Playlist Player ===
+
+// === YouTube Playlist Player (patched) ===
 const JS_PLAYLISTS = [
   { name: 'Shoegaze', id: 'PLsEc7Aw3YxEpeL9WwsjTqzgzmtW5-p9ZK' },
   { name: 'Hardcore', id: 'PLCaMf5YpijPKhGrogj6lxio1_U_NM1NCw' },
@@ -217,6 +218,19 @@ const LS_KEY_VOL = 'joinspy_volume';
 let ytPlayer = null;
 let currentPlaylistId = null;
 
+function extractPlaylistId(input) {
+  if (!input) return null;
+  // If it's already an ID (starts with PL...), return as-is
+  if (/^PL[A-Za-z0-9_\-]+$/.test(input)) return input;
+  // If it's a URL, pull the "list" param
+  try {
+    const u = new URL(input);
+    const list = u.searchParams.get('list');
+    if (list) return list;
+  } catch {}
+  return input; // fallback
+}
+
 function populatePlaylistSelect(){
   const sel = document.getElementById('playlist-select');
   if (!sel) return;
@@ -228,18 +242,13 @@ function populatePlaylistSelect(){
     sel.appendChild(opt);
   });
   // default Lofi or saved
-  const saved = localStorage.getItem(LS_KEY_PL);
+  const saved = extractPlaylistId(localStorage.getItem(LS_KEY_PL));
   const defaultId = saved || JS_PLAYLISTS.find(p => p.name.toLowerCase() === 'lofi')?.id || JS_PLAYLISTS[0].id;
   sel.value = defaultId;
   currentPlaylistId = defaultId;
   sel.addEventListener('change', () => {
-    const id = sel.value;
-    currentPlaylistId = id;
-    localStorage.setItem(LS_KEY_PL, id);
-    if (ytPlayer?.loadPlaylist) {
-      ytPlayer.loadPlaylist({ listType: 'playlist', list: id, index: 0 });
-      // No autoplay per your preference
-    }
+    const id = extractPlaylistId(sel.value);
+    changePlaylist(id);
   });
 }
 
@@ -319,9 +328,23 @@ function setYTVolume(v){
   ytPlayer.setVolume(Math.floor((v || 0) * 100));
 }
 
+function changePlaylist(id){
+  const newId = extractPlaylistId(id);
+  if (!newId || !ytPlayer) return;
+  currentPlaylistId = newId;
+  localStorage.setItem(LS_KEY_PL, newId);
+  // Stop current and cue new playlist (no autoplay)
+  try { ytPlayer.stopVideo(); } catch {}
+  ytPlayer.cuePlaylist({ listType: 'playlist', list: newId, index: 0 });
+  // Reset play button to "play" state
+  const playBtn = document.getElementById('yt-playpause');
+  if (playBtn) playBtn.innerHTML = '&#9654;';
+}
+
 function initYTPlayer(){
   populatePlaylistSelect();
   loadYouTubeAPI();
 }
 
 window.addEventListener('load', initYTPlayer);
+
