@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JoinSpy Privacy Policy</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root { --accent:#dd4545; --ink:#e6e6e6; --muted:#b9bbbe; --panel:#232428; --border:#2b2d31; }
+  body { background:#18191c; color:var(--ink); }
+  .container { max-width: 980px; margin: 0 auto; padding: 7rem 1.25rem 3rem; }
+  .doc { background:var(--panel); border:1px solid var(--border); border-radius:16px; padding: 1.25rem 1.25rem 2rem; }
+  h1 { font-size:2.2rem; margin:.25rem 0 1rem; color:var(--ink); }
+  .lede { color:var(--muted); margin-bottom:1.25rem; }
+  .meta { font-size:.95rem; color:var(--muted); margin-bottom:1.25rem; }
+  h2 { color:var(--accent); margin:2rem 0 .5rem; font-size:1.35rem; }
+  h3 { color:var(--ink); margin:1rem 0 .35rem; font-size:1.05rem; }
+  p { margin:.5rem 0 .9rem; line-height:1.7; }
+  ul, ol { margin:.4rem 0 1.1rem 1.25rem; line-height:1.7; }
+  li + li { margin-top:.35rem; }
+  .rule { height:1px; background:var(--border); margin:1.4rem 0; }
+  .callout { border-left:4px solid var(--accent); background:#1f2124; padding:.9rem 1rem; border-radius:12px; }
+  .grid-2 { display:grid; gap:1rem; grid-template-columns:1fr; }
+  .toc a { color:var(--ink); text-decoration:none; }
+  .toc a:hover { color:var(--accent); }
+  @media (min-width:900px) { .grid-2 { grid-template-columns: 280px 1fr; } }
+  .toc { position:sticky; top:100px; align-self:start; background:#1d1f24; border:1px solid var(--border); border-radius:14px; padding:.9rem; }
+  .toc h3 { margin-top:.2rem; color:var(--accent); }
+  .toc ul { margin:.25rem 0 0 1rem; }
+  .footer-note { margin-top:1.25rem; color:var(--muted); font-size:.95rem; }
+  a { color: var(--accent); }
+  .badge { display:inline-block; border:1px solid var(--border); border-radius:8px; padding:.08rem .45rem; font-size:.8rem; color:#fff; }
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<nav>
+  <div class="nav-container">
+    <div class="logo"><i class="fab fa-discord"></i> JoinSpy</div>
+    <ul class="nav-links">
+      <li><a href="../index.html#home">Home</a></li>
+      <li><a href="../index.html#features">Features</a></li>
+      <li><a href="../index.html#commands">Commands</a></li>
+      <li><a href="./docs.html">Docs</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="doc">
+    <header>
+      <h1>Privacy Policy</h1>
+      <div class="meta"><strong>Last Updated:</strong> August 09, 2025</div>
+      <p class="lede">This Privacy Policy explains how JoinSpy (“JoinSpy”, “we”, “our”, or “the Service”) processes information when operated within Discord servers. JoinSpy is designed to enhance safety and moderation while respecting privacy, and it operates in full compliance with Discord’s Terms of Service, Community Guidelines, and Developer Policies.</p>
+      <div class="callout"><strong>Compliance first:</strong> JoinSpy does <u>not</u> read or store message content, private messages, or unrelated personal data. We only process data needed to deliver security and analytics features inside Discord.</div>
+    </header>
+
+    <div class="rule"></div>
+
+    <section class="grid-2">
+      <aside class="toc">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#definitions">1. Definitions</a></li>
+          <li><a href="#data-collected">2. Data We Collect</a></li>
+          <li><a href="#purposes">3. Purposes & Legal Basis</a></li>
+          <li><a href="#sharing">4. Data Sharing & Disclosure</a></li>
+          <li><a href="#retention">5. Retention</a></li>
+          <li><a href="#security">6. Security Measures</a></li>
+          <li><a href="#transfers">7. International Transfers</a></li>
+          <li><a href="#child-safety">8. Child Safety</a></li>
+          <li><a href="#cookies">9. Cookies & Tracking</a></li>
+          <li><a href="#rights">10. Your Choices & Rights</a></li>
+          <li><a href="#changes">11. Changes to this Policy</a></li>
+          <li><a href="#contact">12. Contact</a></li>
+        </ul>
+      </aside>
+
+      <article>
+        <h2 id="definitions">1. Definitions</h2>
+        <p><span class="badge">Discord Data</span> Public data made available via Discord’s API (e.g., user IDs, usernames, server IDs, timestamps).<br>
+        <span class="badge">Join Metadata</span> Information generated at the moment a user joins a server (e.g., inviter where available, join time, account age).<br>
+        <span class="badge">Reputation Data</span> Scores and risk indicators calculated by JoinSpy based on limited signals (e.g., account age, watchlist status).<br>
+        <span class="badge">Watchlist</span> Entries created by server staff to mark accounts for closer review (local) or via opt‑in network (global).</p>
+
+        <h2 id="data-collected">2. Data We Collect</h2>
+        <h3>2.1 Identifiers</h3>
+        <ul>
+          <li>Discord User ID, username, discriminator (or display name), and avatar hash.</li>
+          <li>Server (guild) ID and channel IDs relevant to logs.</li>
+        </ul>
+        <h3>2.2 Join Metadata</h3>
+        <ul>
+          <li>Join timestamp, account creation date, inviter (if available), invite code (if available).</li>
+          <li>Server configuration and the selected log channel.</li>
+        </ul>
+        <h3>2.3 Derived Data</h3>
+        <ul>
+          <li>Reputation score (-100 to 100) and risk labels.</li>
+          <li>Local or global watchlist flags if added by authorized staff.</li>
+        </ul>
+        <h3>2.4 Operational Data</h3>
+        <ul>
+          <li>Uptime, performance metrics, and error logs strictly for reliability and abuse prevention.</li>
+        </ul>
+        <h3>2.5 We Do Not Collect</h3>
+        <ul>
+          <li>Message content, private messages, or media contents.</li>
+          <li>Email addresses, passwords, payment data, or sensitive personal attributes.</li>
+        </ul>
+
+        <h2 id="purposes">3. Purposes & Legal Basis</h2>
+        <p>We process the minimal data necessary to:</p>
+        <ul>
+          <li>Provide join tracking, invite attribution, and server safety features.</li>
+          <li>Compute reputation scores and surface risk indicators for moderation.</li>
+          <li>Enable optional local/global watchlist alerts to help prevent abuse.</li>
+          <li>Maintain service reliability, security, and fraud/abuse prevention.</li>
+        </ul>
+        <p>Legal bases may include legitimate interests in securing communities and fulfilling server owners’ requests to configure JoinSpy.</p>
+
+        <h2 id="sharing">4. Data Sharing & Disclosure</h2>
+        <ul>
+          <li><strong>Within a Server:</strong> Logs and scores are visible to the channels/roles your server designates.</li>
+          <li><strong>Global Features (Opt‑In):</strong> Reputation/watchlist signals may be shared with other participating servers only when explicitly enabled by server owners or admins.</li>
+          <li><strong>No Sale of Data:</strong> JoinSpy does not sell, rent, or trade user data.</li>
+          <li><strong>Service Providers:</strong> Infrastructure providers may process limited operational data under confidentiality obligations.</li>
+          <li><strong>Legal Requirements:</strong> We may disclose information if required by applicable law or to protect the Service and its users.</li>
+        </ul>
+
+        <h2 id="retention">5. Retention</h2>
+        <ul>
+          <li>Configuration and log references are retained while the bot remains in a server and as necessary for functionality.</li>
+          <li>Server owners can request deletion of locally stored data via official support channels.</li>
+          <li>Backups and logs are cycled on a rolling basis consistent with reliability and security needs.</li>
+        </ul>
+
+        <h2 id="security">6. Security Measures</h2>
+        <ul>
+          <li>Restricted access and role‑based controls for operational staff.</li>
+          <li>Transport security and secure credential storage.</li>
+          <li>Input validation, rate limiting, and abuse detection to prevent misuse.</li>
+          <li>Reasonable safeguards to mitigate unauthorized access, alteration, or loss.</li>
+        </ul>
+
+        <h2 id="transfers">7. International Transfers</h2>
+        <p>JoinSpy may utilize infrastructure located in multiple regions. Where applicable, appropriate safeguards are applied to protect Discord Data during transit and storage.</p>
+
+        <h2 id="child-safety">8. Child Safety</h2>
+        <p>JoinSpy is intended for use within Discord by server administrators and moderators. We do not knowingly target or profile minors. If a server is aware of local age restrictions, it must configure access accordingly.</p>
+
+        <h2 id="cookies">9. Cookies & Tracking</h2>
+        <p>JoinSpy (the Discord bot) does not place cookies. If you visit our public status or documentation sites, standard web analytics or session storage may apply; such pages will disclose those details separately if used.</p>
+
+        <h2 id="rights">10. Your Choices & Rights</h2>
+        <ul>
+          <li><strong>Server Controls:</strong> Server owners decide which features are enabled and who can access logs.</li>
+          <li><strong>Opt‑Out:</strong> Global reputation/watchlist participation is optional per server.</li>
+          <li><strong>Removal Requests:</strong> Server owners may request deletion of stored data tied to their server.</li>
+        </ul>
+
+        <h2 id="changes">11. Changes to this Policy</h2>
+        <p>If we change this Policy, we will publish the updated version with a new “Last Updated” date. Continued use after changes constitutes acceptance.</p>
+
+        <h2 id="contact">12. Contact</h2>
+        <p>For privacy questions or requests, use official JoinSpy support channels within Discord.</p>
+
+        <p class="footer-note"><em>Made by .netd</em></p>
+      </article>
+    </section>
+  </div>
+</main>
+
+<script src="../main.js"></script>
+</body>
+</html>
